@@ -20,6 +20,7 @@
     "element-ui": "^2.15.6",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "esri-loader": "^3.5.0",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
