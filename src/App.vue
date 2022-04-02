@@ -8,8 +8,7 @@
                     <el-menu
                         default-active="1"
                         class="el-menu-vertical-demo"
-                        @open="handleOpen"
-                        @close="handleClose"
+                        @select="handleMenuSelect"
                         background-color="#545c64"
                         text-color="#fff"
                         active-text-color="#ffd04b"
@@ -26,7 +25,7 @@
                     </el-menu>
                 </el-aside>
                 <el-main class="sys-content">
-                    <Mapview />
+                    <router-view></router-view>
                 </el-main>
             </el-container>
         </el-container>
@@ -35,19 +34,24 @@
 
 <script>
 // import Mapview from './components/common/Mapview.vue';
-import Mapview from './components/common/Mapview.vue';
+// import Mapview from './components/common/MapView.vue';
 export default {
     name: 'App',
     components: {
-        Mapview,
+        // Mapview,
     },
     methods: {
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath);
-        },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath);
-        },
+        handleMenuSelect(index){
+            console.log(index);
+            if(index === '1'){
+                //跳转到首页大屏
+                this.$router.push('/');
+            }else if(index === '2'){
+                //跳转到一张图
+                this.$router.push('/onemap');
+
+            }
+        }
     },
 };
 </script>
