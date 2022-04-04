@@ -82,7 +82,7 @@ export default {
             //去除ui
             view.ui.components = [];
 
-            this.$store.commit('_setDefaultView',view);
+            this.$store.commit('_defaultMapTreeVisible',true);
         },
     },
 };
