@@ -7,7 +7,6 @@
     <span class="maptools-item" @click="handleMapToolsitemClick" id="clear">清屏</span>
   </div>
 </template>
-
 <script>
 export default {
   name: 'MapTools',
@@ -21,7 +20,6 @@ export default {
         case 'xzqh':
           break;
         case 'maptree':
-          // this.$store.commit('_setDefaultMapTreeVisible',true);
           this.open();
           break;
         case 'distance':
@@ -36,6 +34,8 @@ export default {
     },
     open(){
       const currentVisible = this.$store.getters._getDefaultMapTreeVisible;
+
+      console.log(currentVisible)
       this.$store.commit('_setDefaultMapTreeVisible',!currentVisible);
     }
   }
