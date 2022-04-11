@@ -44,8 +44,8 @@
 <script>
 import { loadModules } from 'esri-loader';
 const options = {
-    url: 'https://js.arcgis.com/4.23/init.js',  
-    css: 'https://js.arcgis.com/4.23/esri/themes/light/main.css',
+    url: 'https://js.arcgis.com/4.18/init.js',
+    css: 'https://js.arcgis.com/4.18/esri/themes/light/main.css',
 };
 let graphic = '';
 export default {
@@ -75,7 +75,6 @@ export default {
             query.where = '1=1';
             //Promise then 链式调用 要查一下
             queryTask.execute(query).then(function (results) {
-                console.log("results:",results);
                 let currentData = [];
                 if (results.features.length > 0) {
                     results.features.map((item) => {
@@ -91,7 +90,6 @@ export default {
                         type: 'warning',
                     });
                 }
-                console.log("currentData:",currentData);
             });
         },
         //行政区划 省份数据变化事件
@@ -103,13 +101,12 @@ export default {
             const provinceCode = value.toString().substring(0, 2);
             const [QueryTask, Query] = await loadModules(['esri/tasks/QueryTask', 'esri/tasks/support/Query'], options);
             const queryTask = new QueryTask({
-                url: 'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/1',
+                url: 'http://localhost:6080/arcgis/rest/services/webgis/ft/MapServer/1',
             });
             let query = new Query();
             query.returnGeometry = false;
             query.outFields = ['*'];
             query.where = "Code like '" + provinceCode + "%'";
-            console.log('省代码provinceCode: ',provinceCode)
             //async await用法
             let results = await queryTask.execute(query);
             let currentCityData = [];
@@ -125,7 +122,7 @@ export default {
                     currentCityData.map(async (item2) => {
                         const cityCode = item2.value.toString().substring(0, 4);
                         const queryTask2 = new QueryTask({
-                            url: 'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/0',
+                            url: 'http://localhost:6080/arcgis/rest/services/webgis/ft/MapServer/0',
                         });
                         let query2 = new Query();
                         query2.returnGeometry = false;
@@ -149,21 +146,18 @@ export default {
         async handleItemClick(val, type) {
             let serverUrl = '';
             let code = '';
-            const view = this.$store.getters._getDefaultView;
-            console.log(type);
+            const view = this.$store.getters._getDefaultMapView;
             if (type === 'city') {
                 code = val.toString().substring(0, 4);
-                console.log("handleItemClick ",code);
                 serverUrl =
-                    'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/1';
+                    'http://localhost:6080/arcgis/rest/services/webgis/ft/MapServer/1';
             } else if (type === 'county') {
                 code = val.toString().substring(0, 6);
-                console.log("handleItemClick ",code);
                 serverUrl =
-                    'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/0';
+                    'http://localhost:6080/arcgis/rest/services/webgis/ft/MapServer/0';
             }
-            const [QueryTask, Query,Graphic] = await loadModules(
-                ['esri/tasks/QueryTask', 'esri/tasks/support/Query','esri/Graphic'],
+            const [QueryTask, Query, Graphic] = await loadModules(
+                ['esri/tasks/QueryTask', 'esri/tasks/support/Query', 'esri/Graphic'],
                 options,
             );
             const queryTask = new QueryTask({
@@ -173,35 +167,9 @@ export default {
             query.returnGeometry = true;
             query.outFields = ['*'];
             query.where = "Code like '" + code + "%'";
-            console.log('query.where:',query.where)
             let results = await queryTask.execute(query);
-            console.log(results);
             //渲染和定位
             const featuresResult = results.features[0];
-            const rings = featuresResult.geometry.rings;
-            // console.log(rings);
-            const [Polygon,Point] = await loadModules(
-                ['esri/geometry/Polygon','esri/geometry/Point'],
-                options,
-            );
-            const polygon = new Polygon({
-                rings: rings,
-            });
-            console.log('polygon.centroid',polygon.centroid);
-            console.log('polygon.centroid',polygon.centroid.latitude,polygon.centroid.longitude);
-            let pt = new Point({
-                x: polygon.centroid.longitude,
-                y: polygon.centroid.latitude,
-                spatialReference: {
-                    wkid: 53004  
-                }
-            });
-            view.goTo({
-                center: pt,
-                zoom: 8,
-            });
-            
-            // console.log("featuresResult,",featuresResult)
             if (graphic) {
                 view.graphics.remove(graphic);
             }
@@ -218,6 +186,13 @@ export default {
                 symbol: fillSymbol,
             });
             view.graphics.add(graphic);
+            view.goTo({
+                center: [
+                    featuresResult.geometry.extent.center.longitude,
+                    featuresResult.geometry.extent.center.latitude,
+                ],
+                zoom: 8,
+            });
         },
         closeXZQHPannel() {
             const currentVisible = this.$store.getters._getDefaultXZQHVisible;
@@ -225,7 +200,6 @@ export default {
         },
     },
 };
-
 </script>
 
 <style>

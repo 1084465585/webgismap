@@ -3,6 +3,7 @@
         <MapView/>
         <MapTools/>
         <MapTree/>
+        <XZQHComponent/>
     </div>
 </template>
 
@@ -10,12 +11,14 @@
 import MapView from './../components/common/MapView'
 import MapTools from './../components/MapTools'
 import MapTree from './../components/MapTree'
+import XZQHComponent from './../components/XZQHComponent.vue'
 export default {
     name: 'OneMap',
     components: {
         MapView,
         MapTools,
         MapTree,
+        XZQHComponent,
     },
     methods: {},
 };

@@ -22,76 +22,57 @@ export default {
         return {
             data: [
                 {
-                    label: '暖色系图层',
-                    layerid: 'layerid',
-                    layerurl: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer',
+                    label: '底图数据',
                     children: [
                         {
-                            label: '二级 1-1',
-                            children: [
-                                {
-                                    label: '三级 1-1-1',
-                                },
-                            ],
+                            label: '暖色系图层',
+                            layerid: 'layerid',
+                            layerurl: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer',
+                        },
+                        {
+                            label: '灰色系图层',
+                            layerid: 'layerid',
+                            layerurl: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer',
                         },
                     ],
                 },
                 {
-                    label: '一级 2',
+                    label: '行政区划数据',
                     children: [
                         {
-                            label: '二级 2-1',
-                            children: [
-                                {
-                                    label: '灰色系图层',
-                                    layerid: 'layerid',
-                                    layerurl: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer',
-                                },
-                            ],
+                            label: '省数据',
+                            layerid: 'layerid',
+                            layerurl:
+                                'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/2',
                         },
                         {
-                            label: '行政区划数据',
-                            children: [
-                                {
-                                    label: '省数据',
-                                    layerid: 'layerid',
-                                    layerurl:
-                                        'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/2',
-                                },
-                                {
-                                    label: '市数据',
-                                    layerid: 'layerid',
-                                    layerurl:
-                                        'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/1',
-                                },
-                                {
-                                    label: '县数据',
-                                    layerid: 'layerid',
-                                    layerurl:
-                                        'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/0',
-                                },
-                            ],
+                            label: '市数据',
+                            layerid: 'layerid',
+                            layerurl:
+                                'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/1',
+                        },
+                        {
+                            label: '县数据',
+                            layerid: 'layerid',
+                            layerurl:
+                                'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/0',
                         },
                     ],
                 },
                 {
-                    label: '一级 3',
+                    label: '业务数据',
                     children: [
                         {
-                            label: '二级 3-1',
-                            children: [
-                                {
-                                    label: '三级 3-1-1',
-                                },
-                            ],
+                            label: '火车站数据 84',
+                            layerid: 'layerid',
+                            layerurl:
+                                'https://services3.arcgis.com/4MALbzcKZ6tNTFMI/arcgis/rest/services/trainstationdata/FeatureServer',
                         },
                         {
-                            label: '二级 3-2',
-                            children: [
-                                {
-                                    label: '三级 3-2-1',
-                                },
-                            ],
+                            label: '火车站数据 Mekatuo',
+                            layerid: 'layerid',
+                            layerurl:
+                                'https://services3.arcgis.com/4MALbzcKZ6tNTFMI/arcgis/rest/services/trainstation_WebMokatuo/FeatureServer',
                         },
                     ],
                 },
@@ -102,9 +83,6 @@ export default {
             },
         };
     },
-
-
-  
   // mounted: function () {},
   methods:{
     async handleNodeClick(data) {
@@ -113,12 +91,9 @@ export default {
             //删除已添加的图层
             const view = this.$store.getters._getDefaultView;
             console.log('MapTree.vue  view: ',view);
-
             const resultLayer = view.map.findLayerById('layerid');
             console.log('MapTree.vue  resultLayer: ',resultLayer);
-
             if(resultLayer)  view.map.remove(resultLayer);
-
             //处理不同服务类型
             const [TileLayer,FeatureLayer] = await loadModules(
               ['esri/layers/TileLayer','esri/layers/FeatureLayer'],
