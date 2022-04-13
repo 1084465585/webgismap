@@ -11,8 +11,8 @@
 import { loadModules } from 'esri-loader';
 //第一步 引入gis api
 const options = {
-    url: 'https://js.arcgis.com/4.23/init.js',
-    css: 'https://js.arcgis.com/4.23/esri/themes/light/main.css',
+    url: 'https://js.arcgis.com/4.18/init.js',
+    css: 'https://js.arcgis.com/4.18/esri/themes/light/main.css',
 };
 export default {
     name: 'MapView',

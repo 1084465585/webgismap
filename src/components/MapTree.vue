@@ -11,8 +11,8 @@
 <script>
 import { loadModules } from 'esri-loader';
 const options = {
-    url: 'https://js.arcgis.com/4.23/init.js',  
-    css: 'https://js.arcgis.com/4.23/esri/themes/light/main.css',
+    url: 'https://js.arcgis.com/4.18/init.js',  
+    css: 'https://js.arcgis.com/4.18/esri/themes/light/main.css',
 };
 
 export default {
@@ -66,13 +66,13 @@ export default {
                             label: '火车站数据 84',
                             layerid: 'layerid',
                             layerurl:
-                                'https://services3.arcgis.com/4MALbzcKZ6tNTFMI/arcgis/rest/services/trainstationdata/FeatureServer',
+                                'http://localhost:6080/arcgis/rest/services/webgis/rs/FeatureServer/0',
                         },
                         {
                             label: '火车站数据 Mekatuo',
                             layerid: 'layerid',
                             layerurl:
-                                'https://services3.arcgis.com/4MALbzcKZ6tNTFMI/arcgis/rest/services/trainstation_WebMokatuo/FeatureServer',
+                                'http://localhost:6080/arcgis/rest/services/webgis/rs/FeatureServer/0',
                         },
                     ],
                 },
@@ -87,12 +87,12 @@ export default {
   methods:{
     async handleNodeClick(data) {
         if(data.layerurl){ //如果url存在
-            console.log('MapTree.vue data.layerurl: ',data.layerurl);
+            // console.log('MapTree.vue data.layerurl: ',data.layerurl);
             //删除已添加的图层
             const view = this.$store.getters._getDefaultView;
-            console.log('MapTree.vue  view: ',view);
+            // console.log('MapTree.vue  view: ',view);
             const resultLayer = view.map.findLayerById('layerid');
-            console.log('MapTree.vue  resultLayer: ',resultLayer);
+            // console.log('MapTree.vue  resultLayer: ',resultLayer);
             if(resultLayer)  view.map.remove(resultLayer);
             //处理不同服务类型
             const [TileLayer,FeatureLayer] = await loadModules(
@@ -100,7 +100,7 @@ export default {
                options);
             //实例化layer
             const serverType = data.layerurl.split('/').filter(i=>i.includes('Server'))[0];
-            console.log(serverType);
+            // console.log(serverType);
             let layer = '';
             switch (serverType) {
                 case 'MapServer':

@@ -31,9 +31,9 @@
                             v-for="item2 in item.children"
                             :key="item2.attributes.Name"
                             :value="item2.attributes.Code"
-                            @click="handleItemClick(item2.attributes.Code, 'county')"
-                            >{{ item2.attributes.Name }}</span
-                        >
+                            @click="handleItemClick(item2.attributes.Code, 'county')">
+                            {{ item2.attributes.Name }}
+                        </span>
                     </td>
                 </tr>
             </tbody>
@@ -44,8 +44,8 @@
 <script>
 import { loadModules } from 'esri-loader';
 const options = {
-    url: 'https://js.arcgis.com/4.23/init.js',  
-    css: 'https://js.arcgis.com/4.23/esri/themes/light/main.css',
+    url: 'https://js.arcgis.com/4.18/init.js',  
+    css: 'https://js.arcgis.com/4.18/esri/themes/light/main.css',
 };
 let graphic = '';
 export default {
@@ -75,7 +75,7 @@ export default {
             query.where = '1=1';
             //Promise then 链式调用 要查一下
             queryTask.execute(query).then(function (results) {
-                console.log("results:",results);
+                // console.log("results:",results);
                 let currentData = [];
                 if (results.features.length > 0) {
                     results.features.map((item) => {
@@ -91,7 +91,7 @@ export default {
                         type: 'warning',
                     });
                 }
-                console.log("currentData:",currentData);
+                // console.log("currentData:",currentData);
             });
         },
         //行政区划 省份数据变化事件
@@ -109,7 +109,7 @@ export default {
             query.returnGeometry = false;
             query.outFields = ['*'];
             query.where = "Code like '" + provinceCode + "%'";
-            console.log('省代码provinceCode: ',provinceCode)
+            // console.log('省代码provinceCode: ',provinceCode)
             //async await用法
             let results = await queryTask.execute(query);
             let currentCityData = [];
@@ -150,15 +150,15 @@ export default {
             let serverUrl = '';
             let code = '';
             const view = this.$store.getters._getDefaultView;
-            console.log(type);
+            // console.log(type);
             if (type === 'city') {
                 code = val.toString().substring(0, 4);
-                console.log("handleItemClick ",code);
+                // console.log("handleItemClick ",code);
                 serverUrl =
                     'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/1';
             } else if (type === 'county') {
                 code = val.toString().substring(0, 6);
-                console.log("handleItemClick ",code);
+                // console.log("handleItemClick ",code);
                 serverUrl =
                     'http://localhost:6080/arcgis/rest/services/webgis/ft/FeatureServer/0';
             }
@@ -173,9 +173,9 @@ export default {
             query.returnGeometry = true;
             query.outFields = ['*'];
             query.where = "Code like '" + code + "%'";
-            console.log('query.where:',query.where)
+            // console.log('query.where:',query.where)
             let results = await queryTask.execute(query);
-            console.log(results);
+            // console.log(results);
             //渲染和定位
             const featuresResult = results.features[0];
             const rings = featuresResult.geometry.rings;
@@ -187,8 +187,8 @@ export default {
             const polygon = new Polygon({
                 rings: rings,
             });
-            console.log('polygon.centroid',polygon.centroid);
-            console.log('polygon.centroid',polygon.centroid.latitude,polygon.centroid.longitude);
+            // console.log('polygon.centroid',polygon.centroid);
+            // console.log('polygon.centroid',polygon.centroid.latitude,polygon.centroid.longitude);
             let pt = new Point({
                 x: polygon.centroid.longitude,
                 y: polygon.centroid.latitude,
@@ -287,7 +287,7 @@ export default {
 .county-item:hover {
     color: #409eff;
 }
-tr {
+.XZQHComponent-pannel tr {
     display: block; /*将tr设置为块体元素*/
     margin-bottom: 15px; /*设置tr间距为15px*/
 }
