@@ -54,6 +54,7 @@ export default {
                     this.initSpaceQuery();
                     break;
                 case 'morescreen':
+                    this.$router.push('/onemap/one');
                     break;
                 case 'swipanalyst':
                     break;
@@ -173,6 +174,7 @@ export default {
                     _self.$message.error('空间查询失败，请联系管理员');
                 });
         },
+        // const newMao 
         async renderResultLayer(resultFeatures) {
             const view = this.$store.getters._getDefaultView;
             const [FeatureLayer] = await loadModules(['esri/layers/FeatureLayer'], options);

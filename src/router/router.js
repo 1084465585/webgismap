@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 // import { component } from 'vue/types/umd';
 import DataVisual from './../pages/DataVisual.vue'
 import OneMap from './../pages/OneMap.vue'
+import MoreScreen from "./../components/MoreScreen.vue"
 Vue.use(VueRouter);
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -18,6 +19,10 @@ export default new VueRouter({
         {
             path:'/onemap',
             component:OneMap,
+        },
+        {
+            path:'/onemap/one',
+            component:MoreScreen
         }
     ],
     mode:'history'

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <el-container class="app-out-pannel">
-            <el-header class="sys-header">智慧水保     一张图项目系统</el-header>
+            <el-header class="sys-header">智慧     一张图项目系统</el-header>
             <el-container class="app-content-pannel">
                 <!-- <el-aside width="200px" class="sys-menu">左侧菜单</el-aside> -->
                 <el-aside class="sys-menu">
@@ -83,5 +83,9 @@ body,
 }
 .sys-content {
     padding: 1px !important;
+}
+.morescreen-view {
+    width: 100%;
+    height: 820px;
 }
 </style>
